@@ -1,13 +1,17 @@
 package com.luiz.minhasfinancas.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.luiz.minhasfinancas.model.entity.Usuario;
 import com.luiz.minhasfinancas.model.repository.UsuarioRepository;
 import com.luiz.minhasfinancas.service.UsuarioService;
 
-
+@Service
 public class UsuarioServiceImpl implements UsuarioService{
 
 	//instância de repositório para realizar operações com o banco
+	@Autowired
 	private UsuarioRepository repository;
 	
 	
