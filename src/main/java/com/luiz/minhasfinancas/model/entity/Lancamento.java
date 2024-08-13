@@ -51,7 +51,6 @@ public class Lancamento {
 	
 	//@convert chama um converter de local date para util.date
 	@Column(name = "data_cadastro")
-	@Convert(converter = Jsr310JpaConverters.class)
 	private LocalDate dataCadastro;
 
 	@Enumerated(value = EnumType.STRING)
