@@ -1,12 +1,17 @@
 package com.luiz.minhasfinancas.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.luiz.minhasfinancas.exception.AutenticacaoException;
 import com.luiz.minhasfinancas.exception.RegraNegocioException;
 import com.luiz.minhasfinancas.model.entity.Usuario;
 import com.luiz.minhasfinancas.model.repository.UsuarioRepository;
 import com.luiz.minhasfinancas.service.UsuarioService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
@@ -23,13 +28,22 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Usuario autenticar(String email, String senha) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Usuario> user = repository.findByEmail(email);
+		
+		if(!user.isPresent()) {
+			throw new AutenticacaoException("Usuário não encontrado");
+		}
+		
+		if(!user.get().getSenha().equals(senha)) {
+			throw new AutenticacaoException("Senha inválida");
+		}
+		
+		return user.get();
 	}
 
 	@Override
+	@Transactional
 	public Usuario cadastrar(Usuario usuario) {
-
 		validarEmail(usuario.getEmail());
 		return repository.save(usuario);
 	}
